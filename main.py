@@ -6,19 +6,20 @@ template = DocxTemplate("WZC ... - Meetcampagne.docx")
 
 
 #Variables
+folder_path = "C:/Users/LoïcGonzalez/OneDrive - Airscan/4Externals - Documents/VEB - Ventilatie Audits/02. Project documents/4. Campaigns/To Do/Fifth batch/2. WZC Breugheldal"
 name_project ="test"
 bouwjaar = "1956"
 number_verdiepingen = "3"
 ventilatie_type = "D"
-gebruikuren= "09u30 – 19u30"
+gebruik_uren= "09u30 – 19u30"
 
 #rooms and their different specifications
-rooms={"rooms_1" : {"name":"",
+rooms={"rooms_1" : {"name":"test",
                     "luchtgroep_locatie":"",
                     "ventilatie_type":ventilatie_type,
                     "regeling":"",
                     "debiet":"",
-                    "gebruikuren":gebruikuren,
+                    "gebruik_uren":gebruik_uren,
                     "gemiddelde_CO2":"",
                     "minimum_CO2":"",
                     "maximum_CO2":"",
@@ -30,7 +31,7 @@ rooms={"rooms_1" : {"name":"",
                    "ventilatie_type": ventilatie_type,
                    "regeling": "",
                    "debiet": "",
-                   "gebruikuren": gebruikuren,
+                   "gebruik_uren": gebruik_uren,
                    "gemiddelde_CO2": "",
                    "minimum_CO2": "",
                    "maximum_CO2": "",
@@ -42,7 +43,7 @@ rooms={"rooms_1" : {"name":"",
                     "ventilatie_type":ventilatie_type,
                     "regeling":"",
                     "debiet":"",
-                    "gebruikuren": gebruikuren,
+                    "gebruik_uren": gebruik_uren,
                     "gemiddelde_CO2":"",
                     "minimum_CO2":"",
                     "maximum_CO2":"",
@@ -54,7 +55,7 @@ rooms={"rooms_1" : {"name":"",
                     "ventilatie_type":ventilatie_type,
                     "regeling":"",
                     "debiet":"",
-                    "gebruikuren": gebruikuren,
+                    "gebruik_uren": gebruik_uren,
                     "gemiddelde_CO2":"",
                     "minimum_CO2":"",
                     "maximum_CO2":"",
@@ -66,7 +67,7 @@ rooms={"rooms_1" : {"name":"",
                     "ventilatie_type":ventilatie_type,
                     "regeling":"",
                     "debiet":"",
-                    "gebruikuren": gebruikuren,
+                    "gebruik_uren": gebruik_uren,
                     "gemiddelde_CO2":"",
                     "minimum_CO2":"",
                     "maximum_CO2":"",
@@ -84,12 +85,25 @@ context = {
     "bouwjaar": bouwjaar,
     "verdiepingen": number_verdiepingen,
     "ventilatie_type": ventilatie_type,
-    "room_1": rooms["rooms_1"],
+    #room 1
+    "1_name": rooms["rooms_1"]["name"],
+    "1_luchtgroep_locatie": rooms["rooms_1"]["luchtgroep_locatie"],
+    "1_ventilatie_type": rooms["rooms_1"]["ventilatie_type"],
+    "1_regeling": rooms["rooms_1"]["regeling"],
+    "1_debiet": rooms["rooms_1"]["debiet"],
+    "1_gebruik_uren": rooms["rooms_1"]["gebruik_uren"],
+    "1_gemiddelde_CO2": rooms["rooms_1"]["gemiddelde_CO2"],
+    "1_minimum_CO2": rooms["rooms_1"]["minimum_CO2"],
+    "1_maximum_CO2": rooms["rooms_1"]["maximum_CO2"],
+    "1_CO2_under_900": rooms["rooms_1"]["CO2_under_900"],
+    "1_CO2_under_1200": rooms["rooms_1"]["CO2_under_1200"],
+
+
+
     "room_2": rooms["rooms_2"],
     "room_3": rooms["rooms_3"],
     "room_4": rooms["rooms_4"],
-    "room_5": rooms["rooms_5"],
-    "ventilatie_type":ventilatie_type
+    "room_5": rooms["rooms_5"]
 
 }
 
