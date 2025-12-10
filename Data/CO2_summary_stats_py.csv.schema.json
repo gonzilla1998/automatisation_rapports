@@ -1,0 +1,62 @@
+{
+  "fields": [
+    {
+      "name": "Device",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "Mean_All",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Min_All",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Max_All",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Percent_Above_900_All",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Percent_Above_1200_All",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Mean_Op",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Min_Op",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Max_Op",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Percent_Above_900_Op",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "Percent_Above_1200_Op",
+      "type": "number",
+      "format": "default"
+    }
+  ],
+  "missingValues": [
+    ""
+  ]
+}

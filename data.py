@@ -6,7 +6,7 @@ from pathlib import Path
 # 1. Load all CSV files
 # -----------------------------
 
-folder_path = "C:/Users/LoïcGonzalez/OneDrive - Airscan/4Externals - Documents/VEB - Ventilatie Audits/02. Project documents/4. Campaigns/To Do/Fifth batch/2. WZC Breugheldal/2. Data/CSV/Cleaned"
+folder_path = "C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data/Cleaned"
 def load_csv_files(folder_path):
     loaded_names = []    # ÉQUIVALENT R : vector storing object names
     globals_dict = {}    # ÉQUIVALENT R : environment to store created dataframes
@@ -107,10 +107,10 @@ summary_stats=load_csv_files(folder_path)
 # 3. Export to CSV
 # -----------------------------
 
-output_folder = r"C:\Users\LoïcGonzalez\OneDrive - Airscan\4Externals - Documents\VEB - Ventilatie Audits\02. Project documents\4. Campaigns\To Do\Fifth batch\2. WZC Breugheldal\2. Data"
+output_folder = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data"
 os.makedirs(output_folder, exist_ok=True)
 
-output_file = os.path.join(output_folder, "CO2_summary_stats.csv")
+output_file = os.path.join(output_folder, "CO2_summary_stats_py.csv")
 summary_stats.to_csv(output_file, index=False)
 
 print(f"\nCSV successfully saved to:\n{output_file}\n")
