@@ -6,17 +6,8 @@ from data import csv_download
 
 # ---------------------------------------------------------
 # 1. Charger tous les CSV et créer des dataframes nommés
-# ---------------------------------------------------------
+# ---------------------------------------------------------y
 
-loaded_names = []
-
-folder_path = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data/Cleaned"
-output_folder = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data"
-
-loaded_names, globals_dict = csv_download(folder_path)
-
-print(f"Loaded dataframes: {loaded_names}")
-print(f"Dataframes in globals_dict: {list(globals_dict.values())}")
 
 # ---------------------------------------------------------
 # 2. Fonction pour calculer les moyennes horaires
@@ -42,17 +33,17 @@ def process_df(df):
 
 
 # Créer les dataframes *_hourly
-for name in loaded_names:
-    df = globals_dict[name]
-    hourly_df = process_df(df)
-    globals_dict[f"{name}_hourly"] = hourly_df
+
 
 
 # ---------------------------------------------------------
 # 3. Fonction de plot
 # ---------------------------------------------------------
 
-def plot_hourly_df(df_hourly, title="CO₂ Concentrations"):
+def plot_hourly_df(df_hourly):
+    
+
+
     df_long = df_hourly.reset_index().melt(id_vars="Hour", var_name="Date", value_name="CO2")
 
     # Convertir l'heure en datetime pour un axe correct
@@ -67,7 +58,7 @@ def plot_hourly_df(df_hourly, title="CO₂ Concentrations"):
     plt.axhline(900, linestyle="--", color="darkgreen", linewidth=1.2)
     plt.axhline(1200, linestyle="--", color="red", linewidth=1.2)
 
-    plt.title(title)
+    
     plt.xlabel("Uren van de dag")
     plt.ylabel("CO₂ concentratie (ppm)")
     plt.legend(title="")
@@ -75,20 +66,31 @@ def plot_hourly_df(df_hourly, title="CO₂ Concentrations"):
     plt.tight_layout()
 
 
+
 # ---------------------------------------------------------
 # 4. Export des graphes
 # ---------------------------------------------------------
 
-os.makedirs(output_folder, exist_ok=True)
+def export_graphs(folder_path, output_folder):
+    loaded_names, globals_dict = csv_download(folder_path)
 
-for name in loaded_names:
-    hourly_name = f"{name}_hourly"
-    if hourly_name not in globals_dict:
-        continue
+    for name in loaded_names:
+        df = globals_dict[name]
+        hourly_df = process_df(df)
+        globals_dict[f"{name}_hourly"] = hourly_df
+    graph_folder = os.path.join(output_folder, "Graphs")
+    os.makedirs(graph_folder, exist_ok=True)
 
-    df = globals_dict[hourly_name]
-    plot_hourly_df(df, title=hourly_name)
+    for name in loaded_names:
+        hourly_name = f"{name}_hourly"
+        if hourly_name not in globals_dict:
+            continue
 
-    out_path = os.path.join(output_folder, f"{hourly_name}.png")
-    plt.savefig(out_path, dpi=300)
-    plt.close()
+        df = globals_dict[hourly_name]
+        plot_hourly_df(df)
+
+        out_path = os.path.join(graph_folder, f"{hourly_name}.png")
+        plt.savefig(out_path, dpi=300)
+        plt.close()
+
+  

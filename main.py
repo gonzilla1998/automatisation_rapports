@@ -1,12 +1,14 @@
 from docxtpl import DocxTemplate
 from docx2pdf import convert
 from data import csv_to_summary
+from graphs import export_graphs
 
 
 
-folder_path = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data/Cleaned"
-output_folder = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data"
+folder_path = r"C:\pyprojects\VEB_report_automation\Data\Cleaned"
+output_folder = r"C:\pyprojects\VEB_report_automation\Data"
 summary_stats=csv_to_summary(folder_path,output_folder)
+export_graphs(folder_path, output_folder)
 
 
 #template
