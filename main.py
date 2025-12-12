@@ -1,12 +1,19 @@
 from docxtpl import DocxTemplate
 from docx2pdf import convert
+from data import csv_to_summary
+
+
+
+folder_path = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data/Cleaned"
+output_folder = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data"
+summary_stats=csv_to_summary(folder_path,output_folder)
+
 
 #template
 template = DocxTemplate("WZC ... - Meetcampagne.docx")
 
 
 #Variables
-folder_path = "C:/Users/LoïcGonzalez/OneDrive - Airscan/4Externals - Documents/VEB - Ventilatie Audits/02. Project documents/4. Campaigns/To Do/Fifth batch/2. WZC Breugheldal"
 name_project ="test"
 bouwjaar = "1956"
 number_verdiepingen = "3"

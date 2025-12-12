@@ -6,8 +6,8 @@ from pathlib import Path
 # 1. Load all CSV files
 # -----------------------------
 
-folder_path = "C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data/Cleaned"
-def load_csv_files(folder_path):
+
+def csv_download(folder_path):
     loaded_names = []    # ÉQUIVALENT R : vector storing object names
     globals_dict = {}    # ÉQUIVALENT R : environment to store created dataframes
 
@@ -44,17 +44,22 @@ def load_csv_files(folder_path):
         globals_dict[df_name] = df_sel
 
         loaded_names.append(df_name)
+    
+    return loaded_names, globals_dict
 
     # -----------------------------
     # 2. Compute statistics
     # -----------------------------
 
-    import numpy as np
+def csv_to_summary(folder_path,output_folder,opening_hours=(9.5,19.5)):
+    
+    loaded_names, globals_dict = csv_download(folder_path)
 
     summary_rows = []
 
     for name in loaded_names:
         df = globals_dict[name]
+        
 
         # Parse datetime like dmy_hms()
         df["DateTime"] = pd.to_datetime(df["DateTimeStr"], errors="coerce", dayfirst=True)
@@ -64,8 +69,8 @@ def load_csv_files(folder_path):
         df["Weekday"] = df["Day"].between(0, 4)
         df["Operational"] = (
         df["Weekday"]
-        & (df["Hour"] >= 9.5)
-        & (df["Hour"] < 19.5)
+        & (df["Hour"] >= opening_hours[0])
+        & (df["Hour"] <   opening_hours[1])
     )
 
         # ALL DATA
@@ -99,18 +104,15 @@ def load_csv_files(folder_path):
         })
 
     summary_stats = pd.DataFrame(summary_rows)
-    print(summary_stats)
+    os.makedirs(output_folder, exist_ok=True)
+
+    output_file = os.path.join(output_folder, "CO2_summary_stats_py.csv")
+    summary_stats.to_csv(output_file, index=False)
     return summary_stats
 
-summary_stats=load_csv_files(folder_path)
-# -----------------------------
-# 3. Export to CSV
-# -----------------------------
 
-output_folder = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data"
-os.makedirs(output_folder, exist_ok=True)
 
-output_file = os.path.join(output_folder, "CO2_summary_stats_py.csv")
-summary_stats.to_csv(output_file, index=False)
 
-print(f"\nCSV successfully saved to:\n{output_file}\n")
+
+
+

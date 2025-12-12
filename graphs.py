@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
+from data import csv_download
 
 # ---------------------------------------------------------
 # 1. Charger tous les CSV et créer des dataframes nommés
@@ -9,41 +10,13 @@ from datetime import datetime
 
 loaded_names = []
 
-folder_path = r"C:\Users\LoïcGonzalez\OneDrive - Airscan\4Externals - Documents\VEB - Ventilatie Audits\02. Project documents\4. Campaigns\To Do\Fifth batch\2. WZC Breugheldal\2. Data\Graph"
+folder_path = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data/Cleaned"
+output_folder = r"C:/Users/LoïcGonzalez/Pyprojects/VEB_report_aumomation/Data"
 
-csv_files = [
-    os.path.join(folder_path, f)
-    for f in os.listdir(folder_path)
-    if f.lower().endswith(".csv")
-]
+loaded_names, globals_dict = csv_download(folder_path)
 
-globals_dict = globals()
-
-for file in csv_files:
-    df = pd.read_csv(file, sep=";", dtype=str)
-
-    # Trouver colonnes CO2 et Date
-    co2_col = next((c for c in df.columns if "CO2" in c), None)
-    date_col = next((c for c in df.columns if "Date" in c), None)
-
-    if co2_col is None or date_col is None:
-        print(f"Skipping {os.path.basename(file)} — Date or CO2 col missing.")
-        continue
-
-    # Extraire colonnes d'intérêt
-    df_selected = df[[date_col, co2_col]].copy()
-    df_selected.columns = ["DateTimeStr", "CO2"]
-
-    # Convertir CO2 (virgule → point)
-    df_selected["CO2"] = df_selected["CO2"].str.replace(",", ".", regex=False)
-    df_selected["CO2"] = pd.to_numeric(df_selected["CO2"], errors="coerce")
-
-    # Nom de variable Python valide
-    df_name = os.path.splitext(os.path.basename(file))[0].replace(" ", "_")
-
-    globals_dict[df_name] = df_selected
-    loaded_names.append(df_name)
-
+print(f"Loaded dataframes: {loaded_names}")
+print(f"Dataframes in globals_dict: {list(globals_dict.values())}")
 
 # ---------------------------------------------------------
 # 2. Fonction pour calculer les moyennes horaires
@@ -53,7 +26,7 @@ def process_df(df):
     df = df.copy()
 
     # Conversion de la date (format R = dmy_hms)
-    df["DateTime"] = pd.to_datetime(df["DateTimeStr"], dayfirst=True, errors="coerce")
+    df["DateTime"] = pd.to_datetime(df["DateTimeStr"],  errors="coerce",dayfirst=True)
 
     df["Date"] = df["DateTime"].dt.date
     df["Hour"] = df["DateTime"].dt.hour.astype(str).str.zfill(2) + ":00"
@@ -65,7 +38,6 @@ def process_df(df):
         .pivot(index="Hour", columns="Date", values="CO2")
         .sort_index()
     )
-
     return hourly
 
 
@@ -107,7 +79,6 @@ def plot_hourly_df(df_hourly, title="CO₂ Concentrations"):
 # 4. Export des graphes
 # ---------------------------------------------------------
 
-output_folder = r"C:\Users\LoïcGonzalez\OneDrive - Airscan\4Externals - Documents\VEB - Ventilatie Audits\02. Project documents\4. Campaigns\To Do\Fifth batch\1. Kinderdagverblijf Ons Huisje\2. Data\Graphs"
 os.makedirs(output_folder, exist_ok=True)
 
 for name in loaded_names:
